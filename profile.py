@@ -114,7 +114,7 @@ portal.context.defineStructParameter(
     "radios", "X310 CBRS Radios", [],
     multiValue=True,
     min=1,
-    multiValueTitle="CBRS Radios.","
+    multiValueTitle="CBRS Radios.",
     members=[
         portal.Parameter(
             "radio_name",
