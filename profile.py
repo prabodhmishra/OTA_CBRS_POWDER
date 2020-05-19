@@ -111,13 +111,13 @@ portal.context.defineStructParameter(
     
 # Multi-value list of x310+PC pairs to add to experiment.
 portal.context.defineStructParameter(
-    "radios", "X310 CBRS Radios",
+    "radios", "X310 CBRS Radios", [],
     multiValue=True,
     min=1,
     multiValueTitle="CBRS Radios.","
     members=[
         portal.Parameter(
-            "radio_name1",
+            "radio_name",
             "Rooftop base-station X310",
             portal.ParameterType.STRING,
             rooftop_names[0],
@@ -155,7 +155,8 @@ for frange in params.freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 100)
 
 # Request PC + X310 resource pairs.
-x310_node_pair(1, params.radios.radio_name1, params.nodetype, installs)
+for i, radios in enumerate(params.radios):
+	x310_node_pair(i, radios.radio_name, params.nodetype, installs)
 
 # Emit!
 portal.context.printRequestRSpec()
