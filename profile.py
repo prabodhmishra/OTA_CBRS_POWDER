@@ -104,7 +104,7 @@ portal.context.defineStructParameter(
             "freq_max",
             "Frequency Max",
             portal.ParameterType.BANDWIDTH,
-            3560.0,
+            3559.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
