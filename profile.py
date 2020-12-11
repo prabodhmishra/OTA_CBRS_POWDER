@@ -49,7 +49,7 @@ def x310_node_pair(idx, x310_radio_name, node_type, installs):
     node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
     node.disk_image = GLOBALS.SRSLTE_IMG
-        node.component_manager_id = "urn:publicid:IDN+emulab.net+authority+cm"
+    node.component_manager_id = "urn:publicid:IDN+emulab.net+authority+cm"
     node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/add-nat-and-ip-forwarding.sh"))
     node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/update-config-files.sh"))
     node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-cpu.sh"))
