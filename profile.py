@@ -26,6 +26,12 @@ import geni.rspec.emulab.spectrum as spectrum
 import geni.rspec.igext as ig
 
 
+class GLOBALS:
+    SRSLTE_IMG = "urn:publicid:IDN+emulab.net+image+PowderTeam:U18LL-SRSLTE:4"
+    SRSLTE_SRC_DS = "urn:publicid:IDN+emulab.net:powderteam+imdataset+srslte-src-v19"
+    HIFREQ = 3560.0
+    LOFREQ = 3550.0
+    
 # Global Variables
 x310_node_disk_image = \
         "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
@@ -42,10 +48,15 @@ def x310_node_pair(idx, x310_radio_name, node_type, installs):
 
     node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
-    node.disk_image = x310_node_disk_image
+    node.disk_image = GLOBALS.SRSLTE_IMG
+        node.component_manager_id = "urn:publicid:IDN+emulab.net+authority+cm"
+    node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/add-nat-and-ip-forwarding.sh"))
+    node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/update-config-files.sh"))
+    node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-cpu.sh"))
+    node.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-sdr-iface.sh"))
 
-    service_command = " ".join([setup_command] + installs)
-    node.addService(rspec.Execute(shell="bash", command=service_command))
+    #service_command = " ".join([setup_command] + installs)
+    #node.addService(rspec.Execute(shell="bash", command=service_command))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
@@ -84,6 +95,8 @@ rooftop_names = [
      "SMT"),
     ("cbrssdr1-ustar",
      "USTAR"),
+    ("cbrssdr1-hospital",
+     "Hospital"),    
 ]
 
 # Frequency/spectrum parameters
